@@ -1,0 +1,39 @@
+[tool.poetry]
+name = "keycloak-iat-vault"
+version = "0.1.0"
+description = "Create a Keycloak initial access token via API and store it in Vault"
+authors = ["Christian Assing <cassing@redhat.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{ include = "keycloak_iat_vault" }]
+
+[tool.poetry.dependencies]
+python = ">=3.11,<4.0.0"
+hvac = "^1.1.1"
+requests = "^2.31.0"
+pydantic = "^1.10.9"
+sretoolbox = "^2.4.1"
+pyjwt = "^2.7.0"
+
+
+[tool.poetry.group.dev.dependencies]
+types-requests = "^2.31.0.1"
+debugpy = "^1.6.7"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+kia = 'keycloak_iat_vault.__main__:run'
+
+[tool.black]
+line-length = 88
+target-version = ['py311']
+include = '^.*\.py$'
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+force_grid_wrap = 2
+float_to_top = true
