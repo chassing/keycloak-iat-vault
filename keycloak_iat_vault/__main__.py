@@ -13,10 +13,7 @@ from .vault import (
     VaultAPI,
 )
 
-LOG_FMT = (
-    "[%(asctime)s] [%(levelname)s] "
-    "[%(filename)s:%(funcName)s:%(lineno)d] - %(message)s"
-)
+LOG_FMT = "[%(asctime)s] %(message)s"
 LOG_DATEFMT = "%Y-%m-%d %H:%M:%S"
 
 # setup logging
@@ -37,8 +34,7 @@ def is_expired(iat_secret: ClientInitialAccess) -> bool:
 def run() -> None:
     # init API clients
     keycloak_api = KeycloakAPI(
-        # url=config.keycloak_url,
-        url="http://localhost:8000",
+        url=config.keycloak_url,
         realm=config.keycloak_realm,
         client_id=config.keycloak_client_id,
         client_secret=config.keycloak_client_secret,
@@ -69,11 +65,11 @@ def run() -> None:
         not in [cia.id for cia in existing_client_initial_accesses]
     ):
         log.info(
-            f"Creating new initial access token: client count ({config.counter}, expiration: {config.expiration_in_days} days)"
+            f"Creating new initial access token: client count ({config.max_client_count}, expiration: {config.expiration_in_days} days)"
         )
         client_inital_access = keycloak_api.create_client_inital_access(
             data=ClientInitialAccessCreate(
-                count=config.counter,
+                count=config.max_client_count,
                 expiration=config.expiration_in_days * 24 * 60 * 60,
             )
         )

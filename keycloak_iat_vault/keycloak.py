@@ -1,5 +1,3 @@
-from typing import Optional
-
 import requests
 from pydantic import (
     BaseModel,
@@ -7,12 +5,10 @@ from pydantic import (
 )
 from sretoolbox.utils import retry
 
-from .config import config
-
 
 class ClientInitialAccessCreate(BaseModel):
-    count: int = config.counter
-    expiration: int = config.expiration_in_days
+    count: int
+    expiration: int
 
 
 class ClientInitialAccess(BaseModel):
